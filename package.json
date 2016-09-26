@@ -1,0 +1,32 @@
+{
+  "name": "ali-gateway-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.1.1",
+    "form-data": "1.0.0-rc4",
+    "lodash": "^4.13.1",
+    "node-uuid": "^1.4.7",
+    "base-64": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.12.0",
+    "mockjs": "1.0.1-beta2",
+    "expect.js": "latest",
+    "supertest": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XuChangZJU/ali-gateway.git"
+  },
+  "author": "XuChang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XuChangZJU/ali-gateway/issues"
+  },
+  "homepage": "https://github.com/XuChangZJU/ali-gateway#readme"
+}

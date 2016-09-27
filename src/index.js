@@ -4,6 +4,7 @@
 'use strict';
 require("isomorphic-fetch");
 const CryptoJS = require("crypto-js");
+const https = require("https");
 const assign = require("lodash/assign");
 const uuid = require("node-uuid");
 const constants = require("./constants");
@@ -65,11 +66,16 @@ function setGlobals(appKey, appSecret, signHeaderPrefixArray, formDataClass, des
 
 function request(url, method, headers, body, signHeaderPrefixArray, appKey, appSecret) {
     const header2 = initHeaders(url, method, headers, body, signHeaderPrefixArray || SignHeaderPrefixArray, appKey || AppKey, appSecret || AppSecret);
+    const body2 = typeof body === "string" ? body : JSON.stringify(body);
 
     return fetch(url, {
             headers: header2,
-            body,
-            method
+            body: body2,
+            method,
+            // 用Agent过掉https证书的问题（ali https的证书好像不被通过）
+            agent: new https.Agent({
+                rejectUnauthorized: false
+            })
         }
     )
         .then(

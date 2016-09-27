@@ -6,7 +6,7 @@ const aliGateway = require("../src/index");
 const queryString = require("querystring");
 
 const AppKey = "APPKEY";
-const AppSecret = "APPTEST";
+const AppSecret = "APPSECRET";
 
 describe("测试访问阿里云网关接口", function() {
     this.timeout(5000);
@@ -52,5 +52,60 @@ describe("测试访问阿里云网关接口", function() {
         let signature1 = hmac.digest("base64");
         expect(signature1).to.eql("8SNrwtA1KVl/twaIDBSXVQQ6DBVVpfwQli0S6r8Xodo=");
         done();
+    });
+
+    it("[1.0.3]测试身份证图像识别", () => {
+        /**
+         * https://market.aliyun.com/products/57124001/cmapi010401.html#sku=yuncode440100000
+         */
+        let dest = "https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json";
+        const fs = require("fs");
+        const testFileName = "test/files/2.jpg";
+        return new Promise(
+            (resolve, reject) => {
+                fs.readFile(testFileName, {
+                    encoding: "base64"
+                }, (err, data) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    else {
+                        const body = {
+                            inputs: [{
+                                image: {
+                                    dataType: 50,
+                                    dataValue: data
+                                },
+                                configure: {
+                                    dataType: 50,
+                                    dataValue: JSON.stringify({
+                                        side: "face"
+                                    })
+                                }
+                            }]
+                        };
+                        aliGateway.request(dest, "POST", {
+                            [aliGateway.constants.httpHeaders.accept]: "application/json",
+                            [aliGateway.constants.httpHeaders.contentType]: "application/json; charset=UTF-8"
+                        }, body)
+                            .then(
+                                (result) => {
+                                    console.log(result.body);
+                                    expect(result.body.outputs).to.be.an("array");
+                                    expect(result.body.outputs[0].outputLabel).to.eql("ocr_id");
+                                    expect(result.body.outputs[0].outputValue.dataType).to.eql(50);
+                                    expect(result.body.outputs[0].outputValue.dataValue).to.be.a("string");
+                                    expect(result.body).not.to.empty();
+                                    resolve();
+                                }
+                            )
+                            .catch(
+                                reject
+                            );
+                    }
+                })
+            }
+        )
+
     })
 });

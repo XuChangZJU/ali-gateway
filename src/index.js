@@ -3,7 +3,7 @@
  */
 'use strict';
 require("isomorphic-fetch");
-const CryptoJS = require("crypto-js");
+const crypto = require("crypto");
 const https = require("https");
 const assign = require("lodash/assign");
 const uuid = require("node-uuid");
@@ -29,7 +29,9 @@ function initHeaders(url, method, headers, body, signHeaderPrefixArray, appKey, 
         headers2[constants.xHeaders.xCaStage] = Stage;
     }
     if(body && ! body instanceof FormDataClass) {
-        headers2[constants.httpHeaders.contentMd5] = CryptoJS.MD5(body).toString(CryptoJS.enc.Base64);
+        const md5 = crypto.createHash("md5");
+        md5.update(body);
+        headers2[constants.httpHeaders.contentMd5] = md5.digest('base64');
     }
 
     headers2[constants.xHeaders.xCaSignature] = signUtils.sign(url, method, headers2, body, signHeaderPrefixArray, appSecret, now);

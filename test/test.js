@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/9/24.
  */
+"use strict";
 const expect = require("expect.js");
 const aliGateway = require("../src/index");
 const queryString = require("querystring");

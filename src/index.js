@@ -67,15 +67,19 @@ function setGlobals(appKey, appSecret, signHeaderPrefixArray, formDataClass, des
 function request(url, method, headers, body, signHeaderPrefixArray, appKey, appSecret) {
     const header2 = initHeaders(url, method, headers, body, signHeaderPrefixArray || SignHeaderPrefixArray, appKey || AppKey, appSecret || AppSecret);
     const body2 = typeof body === "string" ? body : JSON.stringify(body);
+    let agent;
+    if(url.toLowerCase().startsWith("https")) {
+        // 用Agent过掉https证书的问题（ali https的证书好像不被通过）
+        agent = new https.Agent({
+            rejectUnauthorized: false
+        });
+    }
 
     return fetch(url, {
             headers: header2,
             body: body2,
             method,
-            // 用Agent过掉https证书的问题（ali https的证书好像不被通过）
-            agent: new https.Agent({
-                rejectUnauthorized: false
-            })
+            agent,
         }
     )
         .then(

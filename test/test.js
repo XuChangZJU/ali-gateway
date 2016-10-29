@@ -61,7 +61,7 @@ describe("测试访问阿里云网关接口", function() {
          */
         let dest = "https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json";
         const fs = require("fs");
-        const testFileName = "test/files/2.jpg";
+        const testFileName = "test/files/5.jpg";
         return new Promise(
             (resolve, reject) => {
                 fs.readFile(testFileName, {
@@ -91,7 +91,7 @@ describe("测试访问阿里云网关接口", function() {
                         }, body)
                             .then(
                                 (result) => {
-                                    console.log(result.body);
+                                    console.log(result.body.outputs[0].outputValue);
                                     expect(result.body.outputs).to.be.an("array");
                                     expect(result.body.outputs[0].outputLabel).to.eql("ocr_id");
                                     expect(result.body.outputs[0].outputValue.dataType).to.eql(50);

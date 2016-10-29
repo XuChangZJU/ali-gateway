@@ -123,7 +123,8 @@ function request(url, method, headers, body, signHeaderPrefixArray, appKey, appS
 
                             return Promise.resolve({
                                 headers: response.headers,
-                                body: data
+                                body: data,
+                                status: response.status
                             });
                         }
                     )

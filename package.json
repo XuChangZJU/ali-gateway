@@ -1,5 +1,5 @@
 {
-  "name": "ali-gateway-node",
+  "name": "martian-ali-gateway",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XuChangZJU/ali-gateway.git"
+    "url": "git+https://github.com/XuChangZJU/martian-ali-gateway.git"
   },
   "author": "XuChang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/XuChangZJU/ali-gateway/issues"
+    "url": "https://github.com/XuChangZJU/martian-ali-gateway/issues"
   },
-  "homepage": "https://github.com/XuChangZJU/ali-gateway#readme"
+  "homepage": "https://github.com/XuChangZJU/martian-ali-gateway#readme"
 }

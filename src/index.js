@@ -114,11 +114,7 @@ function request(url, method, headers, body, signHeaderPrefixArray, appKey, appS
                     .then(
                         (data) => {
                             if(!response.ok) {
-                                return Promise.reject({
-                                    headers: response.headers,
-                                    body: data,
-                                    status: response.status
-                                });
+                                throw new Error(`接口返回失败，内容是${JSON.stringify(data)}`);
                             }
 
                             return Promise.resolve({
